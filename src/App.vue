@@ -1,35 +1,58 @@
 <template>
-  <section>
-    <header>
-      <h1>My Friends</h1>
-    </header>
-    <ul>
-      <friend-contact></friend-contact>
-      <friend-contact></friend-contact>
-    </ul>
-  </section>
+  <div>
+    <active-element
+      :topic-title="activeTopic && activeTopic.title"
+      :text="activeTopic && activeTopic.fullText"
+    ></active-element>
+    <knowledge-base></knowledge-base>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      friends: [
+      topics: [
         {
-          id: "Hiren",
-          name: "Hiren Patel",
-          phone: "0123 45678 90",
-          email: "hiren1903@localhost.com",
+          id: 'basics',
+          title: 'The Basics',
+          description: 'Core Vue basics you have to know',
+          fullText:
+            'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
         },
         {
-          id: "Archana",
-          name: "Archana Patel",
-          phone: "0987 654421 21",
-          email: "archana1903@localhost.com",
+          id: 'components',
+          title: 'Components',
+          description:
+            'Components are a core concept for building Vue UIs and apps',
+          fullText:
+            'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
         },
       ],
+      activeTopic: null,
     };
   },
+  provide() {
+    return { 
+      topics: this.topics,
+      selectTopic: this.activateTopic
+    };
+  },
+  methods: {
+    activateTopic(topicId) {
+      this.activeTopic = this.topics.find((topic) => topic.id === topicId);
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.topics.push({
+        id: 'events',
+        title: 'Events',
+        description: 'Events are important in Vue',
+        fullText: 'Events allow you to trigger code on demand!'
+      });
+    }, 3000);
+  }
 };
 </script>
 
@@ -38,55 +61,56 @@ export default {
   box-sizing: border-box;
 }
 html {
-  font-family: "Jost", sans-serif;
+  font-family: sans-serif;
 }
 body {
   margin: 0;
 }
-header {
+section {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  margin: 3rem auto;
-  border-radius: 10px;
-  padding: 1rem;
-  background-color: #58004d;
-  color: white;
-  text-align: center;
-  width: 90%;
+  margin: 2rem auto;
   max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
 }
-#app ul {
+
+ul {
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
+  display: flex;
+  justify-content: center;
 }
-#app li {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  margin: 1rem auto;
-  border-radius: 10px;
+
+li {
+  border-radius: 12px;
+  border: 1px solid #ccc;
   padding: 1rem;
+  width: 15rem;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+h2 {
+  margin: 0.75rem 0;
   text-align: center;
-  width: 90%;
-  max-width: 40rem;
 }
-#app h2 {
-  font-size: 2rem;
-  border-bottom: 4px solid #ccc;
-  color: #58004d;
-  margin: 0 0 1rem 0;
-}
-#app button {
+
+button {
   font: inherit;
-  cursor: pointer;
-  border: 1px solid #ff0077;
-  background-color: #ff0077;
+  border: 1px solid #c70053;
+  background-color: #c70053;
   color: white;
-  padding: 0.05rem 1rem;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
 }
-#app button:hover,
-#app button:active {
-  background-color: #ec3169;
-  border-color: #ec3169;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+
+button:hover,
+button:active {
+  background-color: #e24d8b;
+  border-color: #e24d8b;
 }
 </style>
